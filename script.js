@@ -1,15 +1,17 @@
-const world = Globe()
-  (document.getElementById('globe'))
-  .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
-  .backgroundColor('#000')
-  .arcColor(() => '#ff4d4f')
-  .arcDashLength(0.4)
-  .arcDashGap(0.2)
-  .arcDashAnimateTime(1500)
-  .arcAltitude(0.2);
+const globe = Globe()(document.getElementById("globe"))
+  .globeImageUrl("//unpkg.com/three-globe/example/img/earth-night.jpg")
+  .backgroundColor("#000")
+  .arcColor(() => "#ff00ff")
+  .arcDashLength(0.3)
+  .arcDashGap(0.15)
+  .arcDashAnimateTime(1000)
+  .arcAltitude(0.25)
+  .pointAltitude(0.01)
+  .pointColor(() => "#00ffff")
+  .pointRadius(0.3);
 
-world.controls().autoRotate = true;
-world.controls().autoRotateSpeed = 0.6;
+globe.controls().autoRotate = true;
+globe.controls().autoRotateSpeed = 0.8;
 
 const countries = [
   { name: "USA", lat: 37, lng: -95 },
@@ -18,70 +20,82 @@ const countries = [
   { name: "Germany", lat: 51, lng: 10 },
   { name: "Brazil", lat: -10, lng: -55 },
   { name: "India", lat: 21, lng: 78 },
-  { name: "Indonesia", lat: -2, lng: 113 },
-  { name: "Australia", lat: -25, lng: 133 }
+  { name: "Indonesia", lat: -2, lng: 113 }
 ];
 
-const attackTypes = ["DDoS", "Phishing", "Malware", "Ransomware"];
+const types = ["DDoS", "Phishing", "Malware", "Ransomware"];
 
 let attacks = [];
-let stats = {};
+let heatmap = {};
 let total = 0;
 
 function randomCountry() {
   return countries[Math.floor(Math.random() * countries.length)];
 }
 
-function randomAttack() {
+function createExplosion(lat, lng) {
+  globe.pointsData([{ lat, lng, size: 1 }]);
+
+  setTimeout(() => {
+    globe.pointsData([]);
+  }, 600);
+}
+
+function simulateAttack() {
   const from = randomCountry();
   let to = randomCountry();
   if (from === to) to = randomCountry();
 
-  const type = attackTypes[Math.floor(Math.random() * attackTypes.length)];
+  const type = types[Math.floor(Math.random() * types.length)];
 
-  return {
+  const attack = {
     startLat: from.lat,
     startLng: from.lng,
     endLat: to.lat,
     endLng: to.lng,
-    type: type
+    type
   };
-}
 
-function updateStats(type) {
-  total++;
-  stats[type] = (stats[type] || 0) + 1;
-
-  document.getElementById("total").innerText = total;
-
-  const statsDiv = document.getElementById("stats");
-  statsDiv.innerHTML = "";
-
-  Object.keys(stats).forEach(key => {
-    const div = document.createElement("div");
-    div.innerHTML = `<span>${key}</span><span>${stats[key]}</span>`;
-    statsDiv.appendChild(div);
-  });
-}
-
-function simulateAttack() {
-  const attack = randomAttack();
   attacks.unshift(attack);
-  attacks = attacks.slice(0, 50);
+  attacks = attacks.slice(0, 60);
 
   const filter = document.getElementById("filter").value;
-
   const filtered = filter === "All"
     ? attacks
     : attacks.filter(a => a.type === filter);
 
-  world.arcsData(filtered);
-  updateStats(attack.type);
+  globe.arcsData(filtered);
+
+  // Explosion effect
+  createExplosion(to.lat, to.lng);
+
+  // Sound
+  document.getElementById("alertSound").play();
+
+  // Heatmap tracking
+  heatmap[to.name] = (heatmap[to.name] || 0) + 1;
+  total++;
+
+  updateStats();
+}
+
+function updateStats() {
+  document.getElementById("total").innerText = total;
+
+  const heatDiv = document.getElementById("heatStats");
+  heatDiv.innerHTML = "";
+
+  Object.entries(heatmap)
+    .sort((a,b) => b[1] - a[1])
+    .forEach(([country, count]) => {
+      const div = document.createElement("div");
+      div.innerHTML = `<span>${country}</span><span>${count}</span>`;
+      heatDiv.appendChild(div);
+    });
 }
 
 setInterval(simulateAttack, 2000);
 
 document.getElementById("filter").addEventListener("change", () => {
-  world.arcsData(attacks);
+  globe.arcsData(attacks);
 });
-
