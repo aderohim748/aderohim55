@@ -1,66 +1,74 @@
 body {
   margin: 0;
-  background: #000;
-  font-family: Arial, sans-serif;
-  color: white;
+  background: radial-gradient(circle at center, #050510, #000);
+  font-family: Consolas, monospace;
+  color: #00ffff;
   overflow: hidden;
 }
 
-.header {
+.topbar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 15px 25px;
-  background: #0f172a;
-  border-bottom: 1px solid #1f2937;
+  padding: 15px 30px;
+  background: #0a0a1a;
+  border-bottom: 1px solid #00ffff44;
+  box-shadow: 0 0 20px #00ffff33;
 }
 
-.live-badge {
-  background: #16a34a;
-  padding: 5px 12px;
-  border-radius: 20px;
-  animation: pulse 1.5s infinite;
+.logo {
+  font-size: 20px;
+  text-shadow: 0 0 10px #00ffff;
 }
 
-@keyframes pulse {
-  0% { opacity: 1; }
+.status {
+  color: #ff0066;
+  text-shadow: 0 0 10px #ff0066;
+  animation: blink 1.2s infinite;
+}
+
+@keyframes blink {
   50% { opacity: 0.4; }
-  100% { opacity: 1; }
 }
 
-.container {
+.main {
   display: flex;
 }
 
 #globe {
-  width: 75vw;
-  height: 90vh;
+  width: 80vw;
+  height: 92vh;
 }
 
-.sidebar {
-  width: 25vw;
+.panel {
+  width: 20vw;
+  background: #0a0a1a;
   padding: 20px;
-  background: #0f172a;
-  border-left: 1px solid #1f2937;
+  border-left: 1px solid #00ffff44;
+  box-shadow: inset 0 0 30px #00ffff22;
+}
+
+h2 {
+  color: #ff00ff;
+  text-shadow: 0 0 8px #ff00ff;
 }
 
 select {
   width: 100%;
   padding: 8px;
+  background: black;
+  color: #00ffff;
+  border: 1px solid #00ffff;
   margin-bottom: 20px;
-  background: #111827;
-  color: white;
-  border: 1px solid #374151;
 }
 
-h2 {
-  margin-top: 20px;
-  font-size: 18px;
-}
-
-#stats div {
+.stat {
   display: flex;
   justify-content: space-between;
-  margin-top: 5px;
+  margin-bottom: 10px;
 }
 
+#heatStats div {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+}
