@@ -1,101 +1,83 @@
-const globe = Globe()(document.getElementById("globe"))
-  .globeImageUrl("//unpkg.com/three-globe/example/img/earth-night.jpg")
-  .backgroundColor("#000")
-  .arcColor(() => "#ff00ff")
-  .arcDashLength(0.3)
-  .arcDashGap(0.15)
-  .arcDashAnimateTime(1000)
-  .arcAltitude(0.25)
-  .pointAltitude(0.01)
-  .pointColor(() => "#00ffff")
-  .pointRadius(0.3);
-
-globe.controls().autoRotate = true;
-globe.controls().autoRotateSpeed = 0.8;
-
-const countries = [
-  { name: "USA", lat: 37, lng: -95 },
-  { name: "China", lat: 35, lng: 104 },
-  { name: "Russia", lat: 60, lng: 100 },
-  { name: "Germany", lat: 51, lng: 10 },
-  { name: "Brazil", lat: -10, lng: -55 },
-  { name: "India", lat: 21, lng: 78 },
-  { name: "Indonesia", lat: -2, lng: 113 }
+// Database Kamera
+const cameras = [
+{
+    name: "New York - Times Square",
+    lat: 40.7580,
+    lng: -73.9855,
+    url: "https://www.earthcam.com/world/usa/newyork/timessquare/?cam=tsstreet"
+},
+{
+    name: "Tokyo - Shibuya",
+    lat: 35.6595,
+    lng: 139.7005,
+    url: "https://www.earthcam.com/world/japan/tokyo/shibuya/?cam=shibuya"
+},
+{
+    name: "Paris - Eiffel Tower",
+    lat: 48.8584,
+    lng: 2.2945,
+    url: "https://www.earthcam.com/world/france/paris/?cam=eiffeltower"
+},
+{
+    name: "Rome - Colosseum",
+    lat: 41.8902,
+    lng: 12.4922,
+    url: "https://www.earthcam.com/world/italy/rome/?cam=rome"
+}
 ];
 
-const types = ["DDoS", "Phishing", "Malware", "Ransomware"];
+// Init Map
+const map = L.map('map').setView([20, 0], 2);
 
-let attacks = [];
-let heatmap = {};
-let total = 0;
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap'
+}).addTo(map);
 
-function randomCountry() {
-  return countries[Math.floor(Math.random() * countries.length)];
-}
+// Tambah Marker ke Map
+cameras.forEach(cam => {
+    const marker = L.marker([cam.lat, cam.lng]).addTo(map);
 
-function createExplosion(lat, lng) {
-  globe.pointsData([{ lat, lng, size: 1 }]);
-
-  setTimeout(() => {
-    globe.pointsData([]);
-  }, 600);
-}
-
-function simulateAttack() {
-  const from = randomCountry();
-  let to = randomCountry();
-  if (from === to) to = randomCountry();
-
-  const type = types[Math.floor(Math.random() * types.length)];
-
-  const attack = {
-    startLat: from.lat,
-    startLng: from.lng,
-    endLat: to.lat,
-    endLng: to.lng,
-    type
-  };
-
-  attacks.unshift(attack);
-  attacks = attacks.slice(0, 60);
-
-  const filter = document.getElementById("filter").value;
-  const filtered = filter === "All"
-    ? attacks
-    : attacks.filter(a => a.type === filter);
-
-  globe.arcsData(filtered);
-
-  // Explosion effect
-  createExplosion(to.lat, to.lng);
-
-  // Sound
-  document.getElementById("alertSound").play();
-
-  // Heatmap tracking
-  heatmap[to.name] = (heatmap[to.name] || 0) + 1;
-  total++;
-
-  updateStats();
-}
-
-function updateStats() {
-  document.getElementById("total").innerText = total;
-
-  const heatDiv = document.getElementById("heatStats");
-  heatDiv.innerHTML = "";
-
-  Object.entries(heatmap)
-    .sort((a,b) => b[1] - a[1])
-    .forEach(([country, count]) => {
-      const div = document.createElement("div");
-      div.innerHTML = `<span>${country}</span><span>${count}</span>`;
-      heatDiv.appendChild(div);
-    });
-}
-
-setInterval(simulateAttack, 2000);
-
-document.getElementById("filter").addEventListener("change", () => {
-  globe.arcsData(attacks);
+    marker.bindPopup(`
+        <b>${cam.name}</b><br>
+        <button onclick="addCamera('${cam.name}', '${cam.url}')">
+            Lihat Kamera
+        </button>
+    `);
 });
+
+// Tambah kamera ke grid
+function addCamera(name, url) {
+    const grid = document.getElementById("cameraGrid");
+
+    const card = document.createElement("div");
+    card.className = "camera-card";
+
+    card.innerHTML = `
+        <div class="camera-title">${name}</div>
+        <iframe src="${url}" allowfullscreen></iframe>
+    `;
+
+    grid.appendChild(card);
+}
+
+// Search lokasi
+document.getElementById("searchBtn").addEventListener("click", function() {
+    const keyword = document.getElementById("searchInput").value.toLowerCase();
+
+    const result = cameras.find(cam =>
+        cam.name.toLowerCase().includes(keyword)
+    );
+
+    if (result) {
+        map.setView([result.lat, result.lng], 10);
+        addCamera(result.name, result.url);
+    } else {
+        alert("Lokasi tidak ditemukan");
+    }
+});
+
+// Clear Grid
+document.getElementById("clearBtn").addEventListener("click", function() {
+    document.getElementById("cameraGrid").innerHTML = "";
+});
+
