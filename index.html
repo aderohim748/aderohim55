@@ -1,47 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Cyber SOC Global Monitor</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Live CCTV</title>
 
-  <script src="https://unpkg.com/three@0.152.2/build/three.min.js"></script>
-  <script src="https://unpkg.com/globe.gl"></script>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="topbar">
-  <div class="logo">CYBER SOC MONITOR</div>
-  <div class="status">● LIVE THREAT INTELLIGENCE</div>
+<header>
+    🌎 Global Live CCTV Monitoring
+</header>
+
+<div id="map"></div>
+
+<div class="controls">
+    <input type="text" id="searchInput" placeholder="Cari lokasi...">
+    <button id="searchBtn">Search</button>
+    <button id="clearBtn">Clear Grid</button>
 </div>
 
-<div class="main">
-  <div id="globe"></div>
+<div class="grid" id="cameraGrid"></div>
 
-  <div class="panel">
-    <h2>THREAT FILTER</h2>
-    <select id="filter">
-      <option value="All">All</option>
-      <option value="DDoS">DDoS</option>
-      <option value="Phishing">Phishing</option>
-      <option value="Malware">Malware</option>
-      <option value="Ransomware">Ransomware</option>
-    </select>
+<footer>
+    © 2026 Global CCTV Viewer
+</footer>
 
-    <h2>STATISTICS</h2>
-    <div class="stat">
-      <span>Total Attacks</span>
-      <span id="total">0</span>
-    </div>
-
-    <div id="heatStats"></div>
-  </div>
-</div>
-
-<audio id="alertSound">
-  <source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" type="audio/ogg">
-</audio>
-
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="script.js"></script>
+
 </body>
 </html>
