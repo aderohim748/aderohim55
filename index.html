@@ -1,30 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Live Astronaut Stream</title>
-  <style>
-    body {
-      background: black;
-      color: white;
-      text-align: center;
-      font-family: Arial;
-    }
-    iframe {
-      width: 80%;
-      height: 500px;
-      margin-top: 20px;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Cyber War Monitor</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Three.js & Globe.gl CDN -->
+  <script src="https://unpkg.com/three@0.152.2/build/three.min.js"></script>
+  <script src="https://unpkg.com/globe.gl"></script>
 </head>
 <body>
 
-  <h1>Live Astronaut - ISS</h1>
+  <div class="header">
+    <h1>🌍 Global Cyber War Monitor</h1>
+    <div class="live-badge">LIVE</div>
+  </div>
 
-  <iframe 
-    src="https://www.youtube.com/embed/21X5lGlDOfg" 
-    frameborder="0" 
-    allowfullscreen>
-  </iframe>
+  <div class="container">
+    <div id="globe"></div>
 
+    <div class="sidebar">
+      <h2>Filter Attack</h2>
+      <select id="filter">
+        <option value="All">All</option>
+        <option value="DDoS">DDoS</option>
+        <option value="Phishing">Phishing</option>
+        <option value="Malware">Malware</option>
+        <option value="Ransomware">Ransomware</option>
+      </select>
+
+      <h2>Statistics</h2>
+      <p>Total Attacks:</p>
+      <h3 id="total">0</h3>
+
+      <div id="stats"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
