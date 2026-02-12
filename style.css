@@ -1,74 +1,77 @@
 body {
-  margin: 0;
-  background: radial-gradient(circle at center, #050510, #000);
-  font-family: Consolas, monospace;
-  color: #00ffff;
-  overflow: hidden;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
 }
 
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  padding: 15px 30px;
-  background: #0a0a1a;
-  border-bottom: 1px solid #00ffff44;
-  box-shadow: 0 0 20px #00ffff33;
+header {
+    background: #1e293b;
+    padding: 15px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
 }
 
-.logo {
-  font-size: 20px;
-  text-shadow: 0 0 10px #00ffff;
+#map {
+    height: 400px;
 }
 
-.status {
-  color: #ff0066;
-  text-shadow: 0 0 10px #ff0066;
-  animation: blink 1.2s infinite;
+.controls {
+    padding: 15px;
+    text-align: center;
+    background: #111827;
 }
 
-@keyframes blink {
-  50% { opacity: 0.4; }
+input {
+    padding: 10px;
+    width: 250px;
+    border-radius: 8px;
+    border: none;
+    margin-right: 10px;
 }
 
-.main {
-  display: flex;
+button {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #2563eb;
+    color: white;
+    margin: 5px;
 }
 
-#globe {
-  width: 80vw;
-  height: 92vh;
+button:hover {
+    background: #1d4ed8;
 }
 
-.panel {
-  width: 20vw;
-  background: #0a0a1a;
-  padding: 20px;
-  border-left: 1px solid #00ffff44;
-  box-shadow: inset 0 0 30px #00ffff22;
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 15px;
+    padding: 20px;
 }
 
-h2 {
-  color: #ff00ff;
-  text-shadow: 0 0 8px #ff00ff;
+.camera-card {
+    background: #1e293b;
+    padding: 10px;
+    border-radius: 12px;
 }
 
-select {
-  width: 100%;
-  padding: 8px;
-  background: black;
-  color: #00ffff;
-  border: 1px solid #00ffff;
-  margin-bottom: 20px;
+.camera-title {
+    margin-bottom: 8px;
+    font-size: 14px;
 }
 
-.stat {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
+iframe {
+    width: 100%;
+    height: 250px;
+    border-radius: 10px;
+    border: none;
 }
 
-#heatStats div {
-  display: flex;
-  justify-content: space-between;
-  margin: 5px 0;
+footer {
+    text-align: center;
+    padding: 10px;
+    background: #1e293b;
 }
