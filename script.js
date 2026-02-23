@@ -1,83 +1,107 @@
-// Database Kamera
-const cameras = [
-{
-    name: "New York - Times Square",
-    lat: 40.7580,
-    lng: -73.9855,
-    url: "https://www.earthcam.com/world/usa/newyork/timessquare/?cam=tsstreet"
-},
-{
-    name: "Tokyo - Shibuya",
-    lat: 35.6595,
-    lng: 139.7005,
-    url: "https://www.earthcam.com/world/japan/tokyo/shibuya/?cam=shibuya"
-},
-{
-    name: "Paris - Eiffel Tower",
-    lat: 48.8584,
-    lng: 2.2945,
-    url: "https://www.earthcam.com/world/france/paris/?cam=eiffeltower"
-},
-{
-    name: "Rome - Colosseum",
-    lat: 41.8902,
-    lng: 12.4922,
-    url: "https://www.earthcam.com/world/italy/rome/?cam=rome"
-}
-];
+// Scene
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth/window.innerHeight,
+    0.1,
+    1000
+);
 
-// Init Map
-const map = L.map('map').setView([20, 0], 2);
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap'
-}).addTo(map);
+// Lighting
+const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+scene.add(ambient);
 
-// Tambah Marker ke Map
-cameras.forEach(cam => {
-    const marker = L.marker([cam.lat, cam.lng]).addTo(map);
+const pointLight = new THREE.PointLight(0xffffff, 1);
+pointLight.position.set(10,10,10);
+scene.add(pointLight);
 
-    marker.bindPopup(`
-        <b>${cam.name}</b><br>
-        <button onclick="addCamera('${cam.name}', '${cam.url}')">
-            Lihat Kamera
-        </button>
-    `);
+// Cube (Pantun Object)
+const geometry = new THREE.BoxGeometry(3,3,3);
+const material = new THREE.MeshStandardMaterial({
+    color:0x00ffcc,
+    metalness:0.3,
+    roughness:0.2
 });
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
 
-// Tambah kamera ke grid
-function addCamera(name, url) {
-    const grid = document.getElementById("cameraGrid");
+// Mosque Dome
+const domeGeometry = new THREE.SphereGeometry(
+    2,
+    32,
+    32,
+    0,
+    Math.PI * 2,
+    0,
+    Math.PI/2
+);
+const domeMaterial = new THREE.MeshStandardMaterial({
+    color:0x228B22
+});
+const dome = new THREE.Mesh(domeGeometry, domeMaterial);
+dome.position.y = -3;
+scene.add(dome);
 
-    const card = document.createElement("div");
-    card.className = "camera-card";
+// Stars
+const starsGeometry = new THREE.BufferGeometry();
+const starVertices = [];
 
-    card.innerHTML = `
-        <div class="camera-title">${name}</div>
-        <iframe src="${url}" allowfullscreen></iframe>
-    `;
-
-    grid.appendChild(card);
-}
-
-// Search lokasi
-document.getElementById("searchBtn").addEventListener("click", function() {
-    const keyword = document.getElementById("searchInput").value.toLowerCase();
-
-    const result = cameras.find(cam =>
-        cam.name.toLowerCase().includes(keyword)
+for(let i=0;i<1000;i++){
+    starVertices.push(
+        (Math.random()-0.5)*2000,
+        (Math.random()-0.5)*2000,
+        (Math.random()-0.5)*2000
     );
+}
 
-    if (result) {
-        map.setView([result.lat, result.lng], 10);
-        addCamera(result.name, result.url);
+starsGeometry.setAttribute(
+    'position',
+    new THREE.Float32BufferAttribute(starVertices,3)
+);
+
+const starsMaterial = new THREE.PointsMaterial({color:0xffffff});
+const starField = new THREE.Points(starsGeometry, starsMaterial);
+scene.add(starField);
+
+camera.position.z = 8;
+
+// Animation
+function animate(){
+    requestAnimationFrame(animate);
+
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+
+    dome.rotation.y += 0.005;
+
+    renderer.render(scene, camera);
+}
+animate();
+
+// Resize
+window.addEventListener('resize',()=>{
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+});
+
+// MODE TOGGLE
+function toggleMode(){
+    document.body.classList.toggle("day");
+    document.body.classList.toggle("night");
+}
+
+// MUSIC
+const music = document.getElementById("bgm");
+
+function toggleMusic(){
+    if(music.paused){
+        music.play();
     } else {
-        alert("Lokasi tidak ditemukan");
+        music.pause();
     }
-});
-
-// Clear Grid
-document.getElementById("clearBtn").addEventListener("click", function() {
-    document.getElementById("cameraGrid").innerHTML = "";
-});
-
+}
