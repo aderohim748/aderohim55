@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pantun Islami 3D Ultimate</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pantun Islami 3D Pro</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body class="night">
 
-<div id="ui">
-    <h2>🌙 Pantun Islami 3D</h2>
-    <button onclick="toggleMode()">🌙 / ☀ Mode</button>
-    <button onclick="toggleMusic()">🎵 Play / Pause</button>
+<div class="ui">
+    <h1>🕌 Pantun Islami 3D</h1>
+    <div class="buttons">
+        <button onclick="toggleMode()">🌙 / ☀</button>
+        <button onclick="toggleMusic()">🎵</button>
+    </div>
 </div>
 
 <audio id="bgm" loop>
     <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b3c7f.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Three.js CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/controls/OrbitControls.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
