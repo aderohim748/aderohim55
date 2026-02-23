@@ -1,27 +1,65 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pantun Islami 3D Pro</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body class="night">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Undangan Pernikahan Rama & Sinta</title>
 
-<div class="ui">
-    <h1>🕌 Pantun Islami 3D</h1>
-    <div class="buttons">
-        <button onclick="toggleMode()">🌙 / ☀</button>
-        <button onclick="toggleMusic()">🎵</button>
-    </div>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="toggle">
+  <button onclick="toggleMode()">🌙 / ☀️</button>
 </div>
 
-<audio id="bgm" loop>
-    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b3c7f.mp3" type="audio/mpeg">
-</audio>
+<!-- Amplop -->
+<section class="hero">
+  <div class="envelope" onclick="openEnvelope(this)">
+    <div class="flap"></div>
+    <div class="letter">
+      <h1>Rama & Sinta</h1>
+      <p>20 Desember 2026</p>
+    </div>
+  </div>
+</section>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/controls/OrbitControls.js"></script>
+<!-- Lokasi -->
+<section class="section">
+  <h2>Lokasi Acara</h2>
+  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18..."
+    width="90%" height="300" style="border:0;" 
+    allowfullscreen="" loading="lazy">
+  </iframe>
+</section>
+
+<!-- Galeri -->
+<section class="section">
+  <h2>Galeri Prewedding</h2>
+  <div class="gallery">
+    <img src="https://picsum.photos/400/300?1">
+    <img src="https://picsum.photos/400/300?2">
+    <img src="https://picsum.photos/400/300?3">
+    <img src="https://picsum.photos/400/300?4">
+  </div>
+</section>
+
+<!-- RSVP -->
+<section class="section">
+  <h2>RSVP</h2>
+  <form id="rsvpForm">
+    <input type="text" name="nama" placeholder="Nama Anda" required>
+    <input type="number" name="jumlah" placeholder="Jumlah Tamu" required>
+    <textarea name="pesan" placeholder="Ucapan"></textarea>
+    <button type="submit">Kirim</button>
+  </form>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script src="script.js"></script>
+
 </body>
 </html>
