@@ -3,35 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Live CCTV</title>
-
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <title>Pantun Islami 3D Ultimate</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="night">
 
-<header>
-    🌎 Global Live CCTV Monitoring
-</header>
-
-<div id="map"></div>
-
-<div class="controls">
-    <input type="text" id="searchInput" placeholder="Cari lokasi...">
-    <button id="searchBtn">Search</button>
-    <button id="clearBtn">Clear Grid</button>
+<div id="ui">
+    <h2>🌙 Pantun Islami 3D</h2>
+    <button onclick="toggleMode()">🌙 / ☀ Mode</button>
+    <button onclick="toggleMusic()">🎵 Play / Pause</button>
 </div>
 
-<div class="grid" id="cameraGrid"></div>
+<audio id="bgm" loop>
+    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b3c7f.mp3" type="audio/mpeg">
+</audio>
 
-<footer>
-    © 2026 Global CCTV Viewer
-</footer>
+<!-- Three.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="script.js"></script>
-
 </body>
 </html>
