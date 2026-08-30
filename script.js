@@ -1,334 +1,178 @@
-/* =================================
-   ELEMENTS
-================================= */
+/* =========================
+   3D MOUSE PARALLAX
+========================= */
 
-const scene =
-    document.getElementById("scene");
+const scene = document.querySelector(".scene");
 
-const videoBackground =
-    document.querySelector(".video-background");
+let mouseX = 0;
+let mouseY = 0;
 
-const grid =
-    document.querySelector(".grid");
+document.addEventListener("mousemove", (event) => {
 
-const glowOne =
-    document.querySelector(".glow-one");
+    mouseX =
+        (event.clientX / window.innerWidth - 0.5) * 2;
 
-const glowTwo =
-    document.querySelector(".glow-two");
+    mouseY =
+        (event.clientY / window.innerHeight - 0.5) * 2;
 
-
-/* =================================
-   MOUSE PARALLAX
-================================= */
-
-let targetX = 0;
-let targetY = 0;
-
-let currentX = 0;
-let currentY = 0;
+    if (window.innerWidth > 900) {
+        scene.style.transform = `
+            rotateX(${-mouseY * 8}deg)
+            rotateY(${mouseX * 10}deg)
+        `;
+    }
+});
 
 
-/* Get mouse position */
+/* =========================
+   SCROLL REVEAL
+========================= */
 
-document.addEventListener(
-    "mousemove",
-    (event) => {
+const revealElements = document.querySelectorAll(
+    ".card, .about-content, .about-visual, .cta"
+);
 
-        targetX =
-            (event.clientX /
-                window.innerWidth - .5);
+const observer = new IntersectionObserver(
+    (entries) => {
 
-        targetY =
-            (event.clientY /
-                window.innerHeight - .5);
+        entries.forEach((entry) => {
 
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+            }
+
+        });
+
+    },
+    {
+        threshold: 0.15
     }
 );
 
-
-/* Smooth animation */
-
-function animateParallax() {
-
-    currentX +=
-        (targetX - currentX) * .06;
-
-    currentY +=
-        (targetY - currentY) * .06;
+revealElements.forEach((element) => {
+    observer.observe(element);
+});
 
 
-    /* =========================
-       VIDEO CAMERA MOVEMENT
-    ========================= */
+/* =========================
+   CARD TILT
+========================= */
 
-    const videoX =
-        currentX * 12;
-
-    const videoY =
-        currentY * 8;
-
-    const videoRotate =
-        currentX * 1.2;
-
-
-    videoBackground.style.transform = `
-        translate3d(
-            ${videoX}px,
-            ${videoY}px,
-            0
-        )
-        scale(1.05)
-        rotate(${videoRotate}deg)
-    `;
-
-
-    /* =========================
-       3D OBJECT MOVEMENT
-    ========================= */
-
-    const sceneRotateX =
-        -currentY * 12;
-
-    const sceneRotateY =
-        currentX * 18;
-
-
-    scene.style.transform = `
-        rotateX(${sceneRotateX}deg)
-        rotateY(${sceneRotateY}deg)
-        translateZ(20px)
-    `;
-
-
-    /* =========================
-       GRID DEPTH
-    ========================= */
-
-    grid.style.transform = `
-        perspective(600px)
-        rotateX(${65 - currentY * 3}deg)
-        rotateZ(${currentX * 2}deg)
-        translate(
-            ${currentX * 12}px,
-            ${currentY * 8}px
-        )
-    `;
-
-
-    /* =========================
-       CINEMATIC LIGHT MOVEMENT
-    ========================= */
-
-    glowOne.style.transform = `
-        translate(
-            ${currentX * 80}px,
-            ${currentY * 60}px
-        )
-    `;
-
-    glowTwo.style.transform = `
-        translate(
-            ${currentX * -60}px,
-            ${currentY * -45}px
-        )
-    `;
-
-
-    requestAnimationFrame(
-        animateParallax
-    );
-}
-
-animateParallax();
-
-
-/* =================================
-   CARD 3D TILT
-================================= */
-
-const cards =
-    document.querySelectorAll(".card");
-
+const cards = document.querySelectorAll(".card");
 
 cards.forEach((card) => {
 
-    card.addEventListener(
-        "mousemove",
-        (event) => {
+    card.addEventListener("mousemove", (event) => {
 
-            const rect =
-                card.getBoundingClientRect();
+        const rect = card.getBoundingClientRect();
 
-            const x =
-                event.clientX - rect.left;
+        const x =
+            event.clientX - rect.left;
 
-            const y =
-                event.clientY - rect.top;
+        const y =
+            event.clientY - rect.top;
 
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
 
-            const centerX =
-                rect.width / 2;
+        const rotateX =
+            (y - centerY) / 20;
 
-            const centerY =
-                rect.height / 2;
+        const rotateY =
+            (centerX - x) / 20;
 
+        card.style.transform = `
+            perspective(800px)
+            rotateX(${rotateX}deg)
+            rotateY(${rotateY}deg)
+            translateY(-8px)
+        `;
+    });
 
-            const rotateX =
-                (y - centerY) / 18;
+    card.addEventListener("mouseleave", () => {
 
-            const rotateY =
-                (centerX - x) / 18;
+        card.style.transform = "";
 
-
-            card.style.transform = `
-                perspective(900px)
-                rotateX(${rotateX}deg)
-                rotateY(${rotateY}deg)
-                translateY(-8px)
-                scale(1.015)
-            `;
-
-        }
-    );
-
-
-    card.addEventListener(
-        "mouseleave",
-        () => {
-
-            card.style.transform = "";
-
-        }
-    );
+    });
 
 });
 
 
-/* =================================
-   SCROLL REVEAL
-================================= */
+/* =========================
+   SMOOTH BUTTON FEEDBACK
+========================= */
 
-const revealElements =
-    document.querySelectorAll(
-        ".card, .about-content, .about-visual, .cta"
-    );
+document.querySelectorAll("a[href^='#']").forEach((link) => {
 
+    link.addEventListener("click", (event) => {
 
-const observer =
-    new IntersectionObserver(
-        (entries) => {
+        const targetId =
+            link.getAttribute("href");
 
-            entries.forEach(
-                (entry) => {
+        if (targetId === "#") return;
 
-                    if (
-                        entry.isIntersecting
-                    ) {
+        const target =
+            document.querySelector(targetId);
 
-                        entry.target.style.opacity =
-                            "1";
+        if (target) {
 
-                        entry.target.style.transform =
-                            "translateY(0)";
+            event.preventDefault();
 
-                    }
+            target.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
 
-                }
-            );
-
-        },
-        {
-            threshold: .15
         }
-    );
-
-
-revealElements.forEach(
-    (element) => {
-
-        element.style.opacity = "0";
-
-        element.style.transform =
-            "translateY(40px)";
-
-        element.style.transition =
-            "opacity .9s ease, transform .9s ease";
-
-        observer.observe(element);
-
-    }
-);
-
-
-/* =================================
-   SMOOTH ANCHOR
-================================= */
-
-document
-    .querySelectorAll("a[href^='#']")
-    .forEach((link) => {
-
-        link.addEventListener(
-            "click",
-            (event) => {
-
-                const targetID =
-                    link.getAttribute("href");
-
-                if (targetID === "#") return;
-
-                const target =
-                    document.querySelector(
-                        targetID
-                    );
-
-                if (!target) return;
-
-                event.preventDefault();
-
-                target.scrollIntoView({
-                    behavior: "smooth"
-                });
-
-            }
-        );
 
     });
 
-
-/* =================================
-   VIDEO ERROR FALLBACK
-================================= */
-
-const video =
-    document.getElementById("bgVideo");
-
-video.addEventListener(
-    "error",
-    () => {
-
-        document.body.classList.add(
-            "video-error"
-        );
-
-        console.log(
-            "Video background gagal dimuat."
-        );
-
-    }
-);
+});
 
 
-/* =================================
-   MOBILE OPTIMIZATION
-================================= */
+/* =========================
+   CURSOR GLOW
+========================= */
 
-if (window.innerWidth <= 768) {
+const cursorGlow = document.createElement("div");
 
-    document.body.classList.add(
-        "mobile"
-    );
+cursorGlow.style.position = "fixed";
+cursorGlow.style.width = "250px";
+cursorGlow.style.height = "250px";
+cursorGlow.style.borderRadius = "50%";
+cursorGlow.style.pointerEvents = "none";
+cursorGlow.style.zIndex = "-1";
+cursorGlow.style.background =
+    "radial-gradient(circle, rgba(157,92,255,.08), transparent 70%)";
+cursorGlow.style.transform = "translate(-50%, -50%)";
 
-}
-```
+document.body.appendChild(cursorGlow);
+
+document.addEventListener("mousemove", (event) => {
+
+    cursorGlow.style.left =
+        `${event.clientX}px`;
+
+    cursorGlow.style.top =
+        `${event.clientY}px`;
+
+});
+
+
+/* =========================
+   PARALLAX ON SCROLL
+========================= */
+
+window.addEventListener("scroll", () => {
+
+    const scrollY = window.scrollY;
+
+    const grid = document.querySelector(".grid");
+
+    grid.style.transform = `
+        perspective(500px)
+        rotateX(60deg)
+        translateY(${-100 + scrollY * 0.08}px)
+    `;
+
+});
