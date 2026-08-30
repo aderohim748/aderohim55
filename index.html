@@ -1,13 +1,15 @@
+```html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MONON — 3D Website project</title>
+    <title>NEXUS — Cinematic 3D</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
@@ -15,18 +17,63 @@
 
 <body>
 
-    <!-- Background -->
-    <div class="background">
-        <div class="grid"></div>
-        <div class="glow glow-one"></div>
-        <div class="glow glow-two"></div>
+    <!-- =================================
+         CINEMATIC VIDEO BACKGROUND
+    ================================== -->
+
+    <div class="video-background">
+
+        <video
+            id="bgVideo"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+        >
+            <source src="background.mp4" type="video/mp4">
+        </video>
+
+        <!-- Blur Layer -->
+        <div class="video-blur"></div>
+
+        <!-- Cinematic Dark Overlay -->
+        <div class="cinematic-overlay"></div>
+
+        <!-- Vignette -->
+        <div class="vignette"></div>
+
+        <!-- Color Glow -->
+        <div class="cinematic-glow"></div>
+
     </div>
 
-    <!-- Navigation -->
+
+    <!-- =================================
+         ATMOSPHERE
+    ================================== -->
+
+    <div class="background-effects">
+
+        <div class="grid"></div>
+
+        <div class="glow glow-one"></div>
+        <div class="glow glow-two"></div>
+
+        <div class="noise"></div>
+
+    </div>
+
+
+    <!-- =================================
+         NAVIGATION
+    ================================== -->
+
     <header class="navbar">
+
         <a href="#" class="logo">
             <span class="logo-dot"></span>
-            MONON_DEV
+            NEXUS
         </a>
 
         <nav>
@@ -35,34 +82,41 @@
             <a href="#about">About</a>
         </nav>
 
-        <a href="#contact" class="nav-button">Get Started</a>
+        <a href="#contact" class="nav-button">
+            Get Started
+        </a>
+
     </header>
 
 
-    <!-- Hero -->
-    <main id="home">
+    <!-- =================================
+         HERO
+    ================================== -->
 
-        <section class="hero">
+    <main>
+
+        <section id="home" class="hero">
 
             <div class="hero-content">
 
                 <div class="eyebrow">
                     <span></span>
-                    PROJECT WEB 3D BY MONON
+                    THE FUTURE IS 3D
                 </div>
 
                 <h1>
-                    Membuat
-                    <span>Website 3D</span>
-                    Keren.
+                    Build
+                    <span>Beyond</span>
+                    Reality.
                 </h1>
 
                 <p>
-                    A next-generation digital experience designed
-                    to turn ideas into immersive 3D worlds.
+                    A cinematic digital experience designed
+                    to transform ideas into immersive 3D worlds.
                 </p>
 
                 <div class="hero-buttons">
+
                     <a href="#experience" class="primary-button">
                         Explore Experience
                         <span>↗</span>
@@ -71,9 +125,11 @@
                     <a href="#about" class="secondary-button">
                         Discover More
                     </a>
+
                 </div>
 
                 <div class="stats">
+
                     <div>
                         <strong>3D</strong>
                         <span>Experience</span>
@@ -88,20 +144,26 @@
                         <strong>∞</strong>
                         <span>Possibilities</span>
                     </div>
+
                 </div>
 
             </div>
 
 
-            <!-- 3D Scene -->
+            <!-- =================================
+                 3D OBJECT
+            ================================== -->
+
             <div class="scene-container">
 
-                <div class="scene">
+                <div class="scene" id="scene">
 
+                    <!-- Orbits -->
                     <div class="orbit orbit-one"></div>
                     <div class="orbit orbit-two"></div>
                     <div class="orbit orbit-three"></div>
 
+                    <!-- Main Cube -->
                     <div class="cube">
 
                         <div class="face front">
@@ -119,11 +181,15 @@
 
                     </div>
 
-                    <div class="particle particle-one"></div>
-                    <div class="particle particle-two"></div>
-                    <div class="particle particle-three"></div>
-                    <div class="particle particle-four"></div>
-                    <div class="particle particle-five"></div>
+
+                    <!-- Floating Particles -->
+
+                    <div class="particle p1"></div>
+                    <div class="particle p2"></div>
+                    <div class="particle p3"></div>
+                    <div class="particle p4"></div>
+                    <div class="particle p5"></div>
+                    <div class="particle p6"></div>
 
                 </div>
 
@@ -134,51 +200,82 @@
         </section>
 
 
-        <!-- Experience -->
+        <!-- =================================
+             EXPERIENCE
+        ================================== -->
+
         <section id="experience" class="experience">
 
             <div class="section-heading">
+
                 <span>01 / EXPERIENCE</span>
-                <h2>Designed to <em>move.</em></h2>
+
+                <h2>
+                    Designed to
+                    <em>move.</em>
+                </h2>
+
                 <p>
                     Every interaction is crafted to feel alive,
-                    responsive and completely immersive.
+                    responsive and dimensional.
                 </p>
+
             </div>
+
 
             <div class="cards">
 
                 <article class="card">
+
                     <div class="card-number">01</div>
+
                     <div class="card-icon">✦</div>
+
                     <h3>Immersive</h3>
+
                     <p>
                         Depth, lighting and motion combine to create
                         an environment that feels truly dimensional.
                     </p>
+
                     <a href="#">Explore →</a>
+
                 </article>
 
-                <article class="card featured">
-                    <div class="card-number">02</div>
-                    <div class="card-icon">◈</div>
-                    <h3>Interactive</h3>
-                    <p>
-                        Move your cursor and watch the world respond
-                        naturally to every movement.
-                    </p>
-                    <a href="#">Explore →</a>
-                </article>
 
                 <article class="card">
-                    <div class="card-number">03</div>
-                    <div class="card-icon">∞</div>
-                    <h3>Limitless</h3>
+
+                    <div class="card-number">02</div>
+
+                    <div class="card-icon">◈</div>
+
+                    <h3>Interactive</h3>
+
                     <p>
-                        Built for creative freedom, experimentation
+                        Move your cursor and watch the entire
+                        environment respond naturally.
+                    </p>
+
+                    <a href="#">Explore →</a>
+
+                </article>
+
+
+                <article class="card">
+
+                    <div class="card-number">03</div>
+
+                    <div class="card-icon">∞</div>
+
+                    <h3>Limitless</h3>
+
+                    <p>
+                        Built for creativity, experimentation
                         and experiences without boundaries.
                     </p>
+
                     <a href="#">Explore →</a>
+
                 </article>
 
             </div>
@@ -186,10 +283,14 @@
         </section>
 
 
-        <!-- About -->
+        <!-- =================================
+             ABOUT
+        ================================== -->
+
         <section id="about" class="about">
 
             <div class="about-visual">
+
                 <div class="ring ring-large"></div>
                 <div class="ring ring-medium"></div>
                 <div class="ring ring-small"></div>
@@ -197,11 +298,15 @@
                 <div class="core">
                     <span>NX</span>
                 </div>
+
             </div>
+
 
             <div class="about-content">
 
-                <span class="section-label">02 / THE VISION</span>
+                <span class="section-label">
+                    02 / THE VISION
+                </span>
 
                 <h2>
                     Digital spaces
@@ -209,10 +314,11 @@
                 </h2>
 
                 <p>
-                    I'M combines technology, design and motion to
-                    create digital experiences that feel less like
-                    websites and more like worlds.
+                    NEXUS combines technology, design and motion
+                    to create digital experiences that feel less
+                    like websites and more like worlds.
                 </p>
+
 
                 <div class="feature-list">
 
@@ -238,7 +344,10 @@
         </section>
 
 
-        <!-- CTA -->
+        <!-- =================================
+             CTA
+        ================================== -->
+
         <section id="contact" class="cta">
 
             <div class="cta-content">
@@ -250,7 +359,7 @@
                     <strong>the future?</strong>
                 </h2>
 
-                <a href="mailto:hello@nexus.example" class="primary-button">
+                <a href="mailto:hello@example.com" class="primary-button">
                     Start a Project
                     <span>↗</span>
                 </a>
@@ -262,19 +371,27 @@
     </main>
 
 
+    <!-- =================================
+         FOOTER
+    ================================== -->
+
     <footer>
+
         <div class="logo">
             <span class="logo-dot"></span>
-            MONON_DEV
+            NEXUS
         </div>
 
-        <p>© 2026 Dibuat Oleh: BANG MONON. </p>
+        <p>
+            © 2026 NEXUS. Crafted for the future.
+        </p>
 
         <div class="socials">
             <a href="#">IG</a>
             <a href="#">X</a>
             <a href="#">IN</a>
         </div>
+
     </footer>
 
 
@@ -282,3 +399,5 @@
 
 </body>
 </html>
+```
+                        
